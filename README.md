@@ -1,4 +1,7 @@
 # UML viewer
+
+> [Русская документация](README.ru.md)
+
 ## Abstract
 
 This project displays a project as UML. The UML is *dynamic*. You can click
