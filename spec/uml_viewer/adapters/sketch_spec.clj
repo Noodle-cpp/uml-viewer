@@ -366,11 +366,19 @@
         (should-throw Exception (call 'ensure-detail-window! {:class {:id :a}}))
         (should-not (:starting @sketch/!bridge)))))
 
-  (it "starts waiting instead of loading the EDN"
+  (it "starts waiting when the EDN path does not exist yet"
     (quiet-quil
       (fn []
         (with-redefs [document/waiting-state (fn [p] {:path p :waiting true})]
-          (should= {:path "doc.edn" :waiting true} (sketch/setup "doc.edn"))))))
+          (should= {:path "target/no-such-diagram.edn" :waiting true}
+                   (sketch/setup "target/no-such-diagram.edn"))))))
+
+  (it "loads the EDN immediately when the file already exists"
+    (quiet-quil
+      (fn []
+        (with-redefs [document/load-path (fn [p] {:path p :loaded true})]
+          (should= {:path "examples/library.edn" :loaded true}
+                   (sketch/setup "examples/library.edn"))))))
 
   (it "loads the EDN immediately on restart"
     (quiet-quil
@@ -605,7 +613,7 @@
                                (reset! opts (apply hash-map args))
                                :main-applet)
                     uml-viewer.adapters.sketch/open-in-terminal! (fn [& _])]
-        (should= :main-applet (sketch/start! "doc.edn" :source-impl))
+        (should= :main-applet (sketch/start! "target/no-such-diagram.edn" :source-impl))
         (should= "UML viewer" (:title @opts))
         (should= [sketch/window-width sketch/window-height] (:size @opts))
         (should= [:resizable] (:features @opts))
@@ -620,7 +628,7 @@
                                           state)
                           uml-viewer.adapters.sketch/on-main-close (fn [state] state)
                           uml-viewer.adapters.sketch/exit-app! (fn [])]
-              (should= {:path "doc.edn" :waiting true} ((:setup @opts)))
+              (should= {:path "target/no-such-diagram.edn" :waiting true} ((:setup @opts)))
               ((:mouse-moved @opts) :s {:x 4 :y 5})
               (should= [:s 4 5] @moved)
               ((:key-pressed @opts) :s {:key :r})

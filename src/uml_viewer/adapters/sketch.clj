@@ -568,7 +568,10 @@
    (q/text-font (q/create-font "SansSerif" 14 true))
    (if restart?
      (document/restart-state path)
-     (document/waiting-state path))))
+     (let [f (io/file path)]
+       (if (.exists f)
+         (document/load-path path)
+         (document/waiting-state path))))))
 
 (defn- view-dims []
   (let [w (q/width)

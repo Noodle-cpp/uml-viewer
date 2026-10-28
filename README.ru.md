@@ -264,6 +264,8 @@ IR генерируется сканом дерева через `uml-viewer.gra
 
 **Python** — класс на `.py`; импорты; наследование и `Protocol`/`ABC`; публичные `def`/`class` как `:ops`.
 
+**C#** — класс на `class`/`struct`/`record`/`interface`; `:ns` = `Namespace.Type` для overlay crapper/mutator; `using` и базовые типы как рёбра; публичные и private методы (private — `defn-/` в метриках). Regex-скан — см. [docs/csharp-project.ru.md](docs/csharp-project.ru.md).
+
 `merge-scans` связывает TS `invoke("read_text")` с Rust `#[tauri::command] fn read_text`. CRAP/mutation для TS/Rust/Python — отдельные инструменты; overlay по `:ns` и id. Нет данных — красный.
 
 ## IR
@@ -321,4 +323,6 @@ IR генерируется сканом дерева через `uml-viewer.gra
                        :name "layout"})
 ```
 
-**Clojure** — путь из `:ns`, поиск `(defn name …)`. **TypeScript / Rust / Python** — `:file` и объявление. Quil только в `adapters.draw` и `adapters.sketch`.
+**Clojure** — путь из `:ns`, поиск `(defn name …)`. **TypeScript / Rust / Python / C#** — `:file` и объявление. Quil только в `adapters.draw` и `adapters.sketch`.
+
+C# / .NET: policy, overlay и риски — [docs/csharp-project.ru.md](docs/csharp-project.ru.md).

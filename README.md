@@ -518,6 +518,16 @@ project name. `list[Animal]` is not. Public module-level functions and
 classes are `:ops`. A module whose public classes are only `Protocol` or
 `ABC` bases, with no public functions, is `:stereotype :interface`.
 
+**C#** (`uml-viewer.csharp-language.graph-csharp`) emits one class per
+`class`, `struct`, `record`, or `interface`. `:ns` is the dotted
+namespace crapper uses (`Namespace.Type` or `Namespace.Outer.Inner`) so
+CRAP and mutation overlay match. Skips `*Tests.cs`, generated
+`*.Designer.cs`, and `bin`, `obj`, `.vs`. `using` names become
+`:dependency` or foreign classes. Base types on the declaration line are
+`:inheritance` / `:implements` when they resolve. Method names become
+`:ops` (constructors and property accessors are omitted). Parsing is
+regex-based; see [docs/csharp-project.md](docs/csharp-project.md).
+
 `merge-scans` links a TypeScript `invoke("read_text")` to the Rust class
 that owns `#[tauri::command] fn read_text`, as a `:dependency`. Two
 project classes with the same id are an error. When a dependency and an
